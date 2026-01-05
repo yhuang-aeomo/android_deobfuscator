@@ -21,7 +21,6 @@ class MappingProcessor {
     final lines = LineSplitter.split(content);
     
     ClassInfo? currentClass;
-    String? currentObfuscatedClassName;
 
     for (final line in lines) {
       if (line.trim().isEmpty || line.startsWith('#')) continue;
@@ -35,7 +34,6 @@ class MappingProcessor {
           
           map.addClass(obfuscatedName, originalName);
           currentClass = map.getClass(obfuscatedName);
-          currentObfuscatedClassName = obfuscatedName;
         }
       } else if (currentClass != null) {
         // It's a member mapping
@@ -90,8 +88,9 @@ class MappingProcessor {
       if (match != null) {
         final obfuscatedClass = match.group(1)!;
         final obfuscatedMethod = match.group(2)!;
-        final lineNumberStr = match.group(4);
-        final lineNumber = lineNumberStr != null ? int.tryParse(lineNumberStr) : -1;
+        // Note: lineNumber can be used in the future for precise method matching
+        // final lineNumberStr = match.group(4);
+        // final lineNumber = lineNumberStr != null ? int.tryParse(lineNumberStr) : -1;
 
         final classInfo = _map!.getClass(obfuscatedClass);
         if (classInfo != null) {

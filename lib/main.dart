@@ -27,7 +27,7 @@ class DeobfuscatorApp extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black87,
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
