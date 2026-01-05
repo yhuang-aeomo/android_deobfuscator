@@ -25,6 +25,8 @@ class _HomePageState extends State<HomePage> {
 
     try {
       await _processor.loadMapping(content);
+      if (!mounted) return; // 检查 widget 是否仍然挂载
+      
       setState(() {
         _mappingFileName = name;
       });
@@ -33,13 +35,17 @@ class _HomePageState extends State<HomePage> {
         _retrace();
       }
     } catch (e) {
+      if (!mounted) return; // 在使用 context 之前检查
+      
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load mapping: $e')),
+        SnackBar(content: Text('加载 mapping 文件失败: $e')),
       );
     } finally {
-      setState(() {
-        _isProcessing = false;
-      });
+      if (mounted) { // finally 块中也需要检查
+        setState(() {
+          _isProcessing = false;
+        });
+      }
     }
   }
 
